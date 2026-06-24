@@ -1,67 +1,37 @@
 ---
-description: Branch-per-feature workflow with incremental commits per tasks.md phase
+description: One feature branch, incremental commits per tasks.md phase (no branch switching)
 alwaysApply: true
 ---
 
-# Git Branch & Commit Conventions
+# Git Commit Conventions
 
-This project MUST show clean, incremental development history for the beecrowd/Winter
-assessment. Use **one git branch per feature** and **incremental commits per phase**
-inside that branch.
+Clean, incremental history for the beecrowd/Winter assessment: **one feature branch**
+for all implementation, **commits per phase** — no branch changes between phases.
 
-## Branch strategy (one branch per feature)
+## Branch model
 
 | Branch | Purpose |
 |--------|---------|
-| `master` | Stable baseline: spec-kit setup, specs, plans, tasks, README. Merge target after review. |
-| `001-ai-order-engine` | Implementation of feature `specs/001-ai-order-engine/` (T001–T052). |
+| `master` | Planning: specs, constitution, tasks, `.cursor/rules/`, README workflow |
+| `001-ai-order-engine` | All implementation T001–T052 (every phase on this branch) |
 
-**Rules**:
+- Branch name matches feature directory: `specs/001-ai-order-engine` → `001-ai-order-engine`.
+- **Do not** create a branch per phase or user story.
+- **Do not** commit implementation code (`src/`, `prisma/`, `tests/`, Docker) on `master`.
+- Governance (`.cursor/rules/`, spec templates) commits go on `master` only.
+- When the feature is done: open PR `001-ai-order-engine` → `master`.
 
-- Create branch name from feature directory: `specs/<NNN-short-name>` → branch `<NNN-short-name>`.
-- All **implementation code** (src/, prisma/, docker, tests) commits go on the feature branch.
-- Do **not** mix two features on the same branch.
-- When starting a new feature: `git checkout master && git pull && git checkout -b <NNN-short-name>`.
-- After review: open PR `001-ai-order-engine` → `master` (or merge locally).
+Spec-kit resolves tasks via `.specify/feature.json`, not git branch name.
 
-**Current feature branch**: `001-ai-order-engine` (active for implementation).
+## Commits per phase (same branch throughout)
 
-Spec-kit resolves the feature via `.specify/feature.json`, not branch name — but branch
-and directory SHOULD match for easier code review.
-
-**Governance on `master` only**: changes to `.cursor/rules/`, spec-kit templates, and
-README workflow sections MUST be committed on `master`, never on a feature branch.
-
-## Before implementation (MANDATORY — `/speckit-implement`)
-
-Spec-kit does **not** switch branches automatically. The agent MUST run this checklist
-**before writing or modifying any implementation files** (`src/`, `prisma/`, `tests/`,
-`Dockerfile`, `docker-compose.yml`, etc.):
-
-1. Read `.specify/feature.json` → `feature_directory` (e.g. `specs/001-ai-order-engine`).
-2. Derive branch name: last path segment → `001-ai-order-engine`.
-3. Run `git branch --show-current`.
-4. **If current branch is `master`**: STOP. Do not implement on `master`.
-   - If feature branch exists: `git checkout 001-ai-order-engine`
-   - Else: `git checkout -b 001-ai-order-engine`
-5. **If on wrong feature branch**: `git checkout <correct-branch>` before proceeding.
-6. Sync governance from master (read-only merge): `git merge master --no-edit`
-   - Brings latest `.cursor/rules/` without committing governance from the feature branch.
-7. Confirm: `git branch --show-current` equals `001-ai-order-engine`, then start tasks.
-
-Report to the user which branch was selected before implementing Phase 1 (or any phase).
-
-## Commits per phase (inside the feature branch)
-
-Never squash the entire implementation into one commit. Commit after each **checkpoint**
+Never squash the full implementation into one commit. Commit after each **checkpoint**
 in `specs/001-ai-order-engine/tasks.md`.
 
 - Commit only when the user explicitly asks (e.g. "commit T010-T011").
-- After completing a checkpoint, suggest a commit on the **current feature branch**.
+- After a checkpoint, suggest a commit — stay on `001-ai-order-engine`, do not switch branches.
 - One logical unit per commit: setup slice, schema, tests, service, routes, or docs.
 - Do NOT commit unrelated phases together (e.g. orders API + AI chat in one commit).
-- Verify branch before commit: `git branch --show-current` must be `001-ai-order-engine`
-  during implementation (not `master`).
 
 ## Message format (Conventional Commits)
 
@@ -75,41 +45,28 @@ Refs: T0XX[-T0YY]
 
 **Language**: English for commit subjects.
 
-**Examples**:
-
-```text
-chore(setup): scaffold Next.js 15 App Router project
-Refs: T001
-
-feat(orders): implement POST and GET /api/orders endpoints
-Refs: T025-T026
-
-test(cancel): add integration tests for PENDING-only cancellation
-Refs: T027-T028
-```
-
-## Suggested commit map (follow during implementation)
+## Suggested commit map
 
 | Phase | Suggested commits | Tasks |
 |-------|-------------------|-------|
 | Setup | scaffold + deps; docker compose; assets + layout | T001-T009 |
-| Foundational | prisma schema + migration; lib clients + lock; services skeleton + schema tests; instrumentation | T010-T019 |
+| Foundational | prisma schema + migration; lib clients + lock; services skeleton + tests | T010-T019 |
 | US1 | order tests; order service; order API routes | T020-T026 |
 | US2 | cancel tests; cancel service + route | T027-T030 |
 | US3 | batch tests; batch service + cron; trigger route + logging | T031-T037 |
 | US4 | chat tool tests; KB + tools + agent; chat API + UI | T038-T045 |
-| Polish | swagger asset; README SDD + GenAI; gitignore + validation fixes | T046-T052 |
+| Polish | swagger asset; README SDD + GenAI; validation fixes | T046-T052 |
 
 Prefer **test commit before feat** when TDD applies (e.g. T020 before T022).
 
-## Workflow summary
+## Workflow
 
 ```text
-master                    → docs, specs, constitution (planning artifacts)
-  └── 001-ai-order-engine → T001..T052 implementation
-        ├── commit (Phase 1 Setup)
-        ├── commit (Phase 2 Foundational)
-        ├── commit (US1) …
+master                    → planning & governance
+  └── 001-ai-order-engine → all phases, commits only (no branch switches)
+        ├── commit Phase 1 Setup
+        ├── commit Phase 2 Foundational
+        ├── commit US1 … US4
         └── PR → master
 ```
 
@@ -119,5 +76,4 @@ master                    → docs, specs, constitution (planning artifacts)
 
 ## After committing
 
-1. Run `git status` — working tree clean for the completed slice.
-2. Confirm you are on the feature branch before starting the next phase.
+Run `git status` — working tree clean before starting the next phase.

@@ -29,17 +29,14 @@ Refs: T025-T026
 | `fix` | Bug fixes |
 | `refactor` | Code changes without behavior change |
 
-### Branch strategy
+### Branch model
 
 | Branch | Purpose |
 |--------|---------|
-| `master` | Planning artifacts (specs, constitution, tasks) |
-| `001-ai-order-engine` | Implementation (T001–T052) |
+| `master` | Planning (specs, constitution, tasks, rules) |
+| `001-ai-order-engine` | All implementation T001–T052 |
 
-One branch per feature; name matches `specs/<NNN-short-name>/`.
-
-**Before `/speckit-implement`**: the agent MUST `git checkout 001-ai-order-engine`
-(never implement on `master`). See `.cursor/rules/git-commits.mdc`.
+One branch for the entire feature. Phases differ by **commits**, not by branch switches.
 
 ### Commit rhythm
 
