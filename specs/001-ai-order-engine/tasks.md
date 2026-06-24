@@ -74,16 +74,16 @@ Single Next.js project at repository root per `plan.md`.
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T020 [P] [US1] Add unit tests for `OrderService.create`, `list`, `getById` in `tests/unit/order-service.test.ts`
-- [ ] T021 [P] [US1] Add integration tests for order API in `tests/integration/order-api.test.ts` (create, list, filter, detail, 404)
+- [x] T020 [P] [US1] Add unit tests for `OrderService.create`, `list`, `getById` in `tests/unit/order-service.test.ts`
+- [x] T021 [P] [US1] Add integration tests for order API in `tests/integration/order-api.test.ts` (create, list, filter, detail, 404)
 
 ### Implementation for User Story 1
 
-- [ ] T022 [US1] Implement `OrderService.create` with server-side `totalPrice` computation in `src/lib/services/order-service.ts`
-- [ ] T023 [US1] Implement `OrderService.list` with optional status filter in `src/lib/services/order-service.ts`
-- [ ] T024 [US1] Implement `OrderService.getById` with items included in `src/lib/services/order-service.ts`
-- [ ] T025 [P] [US1] Implement `POST` and `GET` handlers in `src/app/api/orders/route.ts` (Zod validation, 400 on invalid payload)
-- [ ] T026 [P] [US1] Implement `GET` handler in `src/app/api/orders/[id]/route.ts` (200 detail, 404 not found)
+- [x] T022 [US1] Implement `OrderService.create` with server-side `totalPrice` computation in `src/lib/services/order-service.ts`
+- [x] T023 [US1] Implement `OrderService.list` with optional status filter in `src/lib/services/order-service.ts`
+- [x] T024 [US1] Implement `OrderService.getById` with items included in `src/lib/services/order-service.ts`
+- [x] T025 [P] [US1] Implement `POST` and `GET` handlers in `src/app/api/orders/route.ts` (Zod validation, 400 on invalid payload)
+- [x] T026 [P] [US1] Implement `GET` handler in `src/app/api/orders/[id]/route.ts` (200 detail, 404 not found)
 
 **Checkpoint**: Quickstart Scenario 1 passes (`specs/001-ai-order-engine/quickstart.md`)
 

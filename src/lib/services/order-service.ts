@@ -1,5 +1,6 @@
-import type { Order, OrderItem, PrismaClient } from "@prisma/client";
+import { Prisma, type Order, type OrderItem, type PrismaClient } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import type { CreateOrderInput, OrderStatus } from "@/lib/validation/order-schemas";
 
 export class OrderNotFoundError extends Error {
   readonly orderId: string;
@@ -27,19 +28,51 @@ export class OrderNotCancellableError extends Error {
 
 export type OrderWithItems = Order & { items: OrderItem[] };
 
+function computeTotalPrice(items: CreateOrderInput["items"]): Prisma.Decimal {
+  const total = items.reduce(
+    (sum, item) => sum + item.quantity * item.unitPrice,
+    0,
+  );
+  return new Prisma.Decimal(total.toFixed(2));
+}
+
 export class OrderService {
   constructor(private readonly db: PrismaClient = prisma) {}
 
-  async create(): Promise<OrderWithItems> {
-    throw new Error("OrderService.create is not implemented yet");
+  async create(input: CreateOrderInput): Promise<OrderWithItems> {
+    return this.db.order.create({
+      data: {
+        totalPrice: computeTotalPrice(input.items),
+        items: {
+          create: input.items.map((item) => ({
+            productId: item.productId,
+            quantity: item.quantity,
+            unitPrice: new Prisma.Decimal(item.unitPrice.toFixed(2)),
+          })),
+        },
+      },
+      include: { items: true },
+    });
   }
 
-  async list(): Promise<OrderWithItems[]> {
-    throw new Error("OrderService.list is not implemented yet");
+  async list(status?: OrderStatus): Promise<Order[]> {
+    return this.db.order.findMany({
+      where: status ? { status } : undefined,
+      orderBy: { createdAt: "desc" },
+    });
   }
 
-  async getById(_orderId: string): Promise<OrderWithItems> {
-    throw new Error("OrderService.getById is not implemented yet");
+  async getById(orderId: string): Promise<OrderWithItems> {
+    const order = await this.db.order.findUnique({
+      where: { id: orderId },
+      include: { items: true },
+    });
+
+    if (!order) {
+      throw new OrderNotFoundError(orderId);
+    }
+
+    return order;
   }
 
   async cancel(_orderId: string): Promise<OrderWithItems> {
