@@ -1,0 +1,64 @@
+---
+description: Incremental git commits aligned with tasks.md checkpoints (assessment deliverable)
+alwaysApply: true
+---
+
+# Git Commit Conventions
+
+This project MUST show clean, incremental development history for the beecrowd/Winter
+assessment. Never squash the entire implementation into one commit.
+
+## When to commit
+
+- Commit only when the user explicitly asks (e.g. "commit T010-T011").
+- After completing a **checkpoint** in `specs/001-ai-order-engine/tasks.md`, suggest a commit.
+- One logical unit per commit: setup slice, schema, tests, service, routes, or docs.
+- Do NOT commit unrelated phases together (e.g. orders API + AI chat in one commit).
+
+## Message format (Conventional Commits)
+
+```text
+<type>(<scope>): <imperative summary ≤72 chars>
+
+Refs: T0XX[-T0YY]
+```
+
+**Types**: `feat` | `test` | `chore` | `docs` | `fix` | `refactor`
+
+**Language**: English for commit subjects.
+
+**Examples**:
+
+```text
+chore(setup): scaffold Next.js 15 App Router project
+Refs: T001
+
+feat(orders): implement POST and GET /api/orders endpoints
+Refs: T025-T026
+
+test(cancel): add integration tests for PENDING-only cancellation
+Refs: T027-T028
+```
+
+## Suggested commit map (follow during implementation)
+
+| Phase | Suggested commits | Tasks |
+|-------|-------------------|-------|
+| Setup | scaffold + deps; docker compose; assets + layout | T001-T009 |
+| Foundational | prisma schema + migration; lib clients + lock; services skeleton + schema tests; instrumentation | T010-T019 |
+| US1 | order tests; order service; order API routes | T020-T026 |
+| US2 | cancel tests; cancel service + route | T027-T030 |
+| US3 | batch tests; batch service + cron; trigger route + logging | T031-T037 |
+| US4 | chat tool tests; KB + tools + agent; chat API + UI | T038-T045 |
+| Polish | swagger asset; README SDD + GenAI; gitignore + validation fixes | T046-T052 |
+
+Prefer **test commit before feat** when TDD applies (e.g. T020 before T022).
+
+## Files to NEVER commit
+
+`.env`, secrets, `node_modules/`, `.next/`, local IDE config with credentials.
+
+## After committing
+
+Run `git status` to confirm a clean working tree for the completed slice before
+starting the next phase.
