@@ -29,6 +29,28 @@ inside that branch.
 Spec-kit resolves the feature via `.specify/feature.json`, not branch name — but branch
 and directory SHOULD match for easier code review.
 
+**Governance on `master` only**: changes to `.cursor/rules/`, spec-kit templates, and
+README workflow sections MUST be committed on `master`, never on a feature branch.
+
+## Before implementation (MANDATORY — `/speckit-implement`)
+
+Spec-kit does **not** switch branches automatically. The agent MUST run this checklist
+**before writing or modifying any implementation files** (`src/`, `prisma/`, `tests/`,
+`Dockerfile`, `docker-compose.yml`, etc.):
+
+1. Read `.specify/feature.json` → `feature_directory` (e.g. `specs/001-ai-order-engine`).
+2. Derive branch name: last path segment → `001-ai-order-engine`.
+3. Run `git branch --show-current`.
+4. **If current branch is `master`**: STOP. Do not implement on `master`.
+   - If feature branch exists: `git checkout 001-ai-order-engine`
+   - Else: `git checkout -b 001-ai-order-engine`
+5. **If on wrong feature branch**: `git checkout <correct-branch>` before proceeding.
+6. Sync governance from master (read-only merge): `git merge master --no-edit`
+   - Brings latest `.cursor/rules/` without committing governance from the feature branch.
+7. Confirm: `git branch --show-current` equals `001-ai-order-engine`, then start tasks.
+
+Report to the user which branch was selected before implementing Phase 1 (or any phase).
+
 ## Commits per phase (inside the feature branch)
 
 Never squash the entire implementation into one commit. Commit after each **checkpoint**

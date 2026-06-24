@@ -38,6 +38,9 @@ Refs: T025-T026
 
 One branch per feature; name matches `specs/<NNN-short-name>/`.
 
+**Before `/speckit-implement`**: the agent MUST `git checkout 001-ai-order-engine`
+(never implement on `master`). See `.cursor/rules/git-commits.mdc`.
+
 ### Commit rhythm
 
 On the feature branch, commits align with checkpoints in
