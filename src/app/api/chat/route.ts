@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { runSupportAgent } from "@/lib/ai/agent";
+import { getChatErrorMessage } from "@/lib/ai/errors";
 import { chatRequestSchema } from "@/lib/validation/chat-schemas";
 
 export async function POST(request: Request) {
@@ -32,5 +33,7 @@ export async function POST(request: Request) {
   }
 
   const result = runSupportAgent(parsed.data);
-  return result.toDataStreamResponse();
+  return result.toDataStreamResponse({
+    getErrorMessage: getChatErrorMessage,
+  });
 }
