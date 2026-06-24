@@ -160,13 +160,13 @@ Single Next.js project at repository root per `plan.md`.
 
 **Purpose**: Documentation, assessment deliverables, and final validation
 
-- [ ] T046 [P] Mirror OpenAPI contract to `assets/swagger.json` from `specs/001-ai-order-engine/contracts/openapi.yaml`
-- [ ] T047 Write SDD architecture section in `README.md` (data model, concurrency, Docker topology)
-- [ ] T048 Write GenAI report section in `README.md` (tools used, prompts, failures, corrections)
-- [ ] T049 Add `README.md` quickstart commands referencing `specs/001-ai-order-engine/quickstart.md`
-- [ ] T050 Run full Vitest suite (`npm test`) and fix failures across `tests/`
-- [ ] T051 Validate `docker compose up --build` end-to-end per `specs/001-ai-order-engine/quickstart.md`
-- [ ] T052 [P] Update `.gitignore` for `.env`, `node_modules`, `.next`, and generated Prisma artifacts
+- [x] T046 [P] Mirror OpenAPI contract to `assets/swagger.json` from `specs/001-ai-order-engine/contracts/openapi.yaml`
+- [x] T047 Write SDD architecture section in `README.md` (data model, concurrency, Docker topology)
+- [x] T048 Write GenAI report section in `README.md` (tools used, prompts, failures, corrections)
+- [x] T049 Add `README.md` quickstart commands referencing `specs/001-ai-order-engine/quickstart.md`
+- [x] T050 Run full Vitest suite (`npm test`) and fix failures across `tests/`
+- [x] T051 Validate `docker compose up --build` end-to-end per `specs/001-ai-order-engine/quickstart.md`
+- [x] T052 [P] Update `.gitignore` for `.env`, `node_modules`, `.next`, and generated Prisma artifacts
 
 ---
 
