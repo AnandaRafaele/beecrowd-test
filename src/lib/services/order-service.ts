@@ -103,7 +103,13 @@ export class OrderService {
   }
 
   async processPendingBatch(): Promise<number> {
-    throw new Error("OrderService.processPendingBatch is not implemented yet");
+    return this.db.$transaction(async (tx) => {
+      const result = await tx.order.updateMany({
+        where: { status: "PENDING" },
+        data: { status: "PROCESSING" },
+      });
+      return result.count;
+    });
   }
 }
 

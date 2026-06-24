@@ -208,3 +208,33 @@ describe("OrderService.cancel", () => {
     });
   });
 });
+
+describe("OrderService.processPendingBatch", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockTransaction.mockImplementation(async (callback) => callback(mockDb));
+  });
+
+  it("transitions all PENDING orders to PROCESSING", async () => {
+    mockOrderUpdateMany.mockResolvedValue({ count: 3 });
+
+    const service = new OrderService(mockDb);
+    const count = await service.processPendingBatch();
+
+    expect(mockTransaction).toHaveBeenCalledOnce();
+    expect(mockOrderUpdateMany).toHaveBeenCalledWith({
+      where: { status: "PENDING" },
+      data: { status: "PROCESSING" },
+    });
+    expect(count).toBe(3);
+  });
+
+  it("returns zero when no pending orders exist", async () => {
+    mockOrderUpdateMany.mockResolvedValue({ count: 0 });
+
+    const service = new OrderService(mockDb);
+    const count = await service.processPendingBatch();
+
+    expect(count).toBe(0);
+  });
+});

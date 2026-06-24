@@ -117,16 +117,16 @@ Single Next.js project at repository root per `plan.md`.
 
 ### Tests for User Story 3
 
-- [ ] T031 [P] [US3] Add unit tests for `OrderService.processPendingBatch` in `tests/unit/order-service.test.ts`
-- [ ] T032 [P] [US3] Add integration tests for background job and lock skip in `tests/integration/background-job.test.ts` (mock or test Redis)
+- [x] T031 [P] [US3] Add unit tests for `OrderService.processPendingBatch` in `tests/unit/order-service.test.ts`
+- [x] T032 [P] [US3] Add integration tests for background job and lock skip in `tests/integration/background-job.test.ts` (mock or test Redis)
 
 ### Implementation for User Story 3
 
-- [ ] T033 [US3] Implement `OrderService.processPendingBatch` with transactional `updateMany` in `src/lib/services/order-service.ts`
-- [ ] T034 [US3] Implement batch runner with lock acquire/release in `src/jobs/schedule-order-processor.ts` (`node-cron` `*/5 * * * *`)
-- [ ] T035 [US3] Register cron scheduler on server start in `src/instrumentation.ts`
-- [ ] T036 [US3] Implement manual trigger route in `src/app/api/internal/process-orders/route.ts` for dev/test (returns executed/skipped)
-- [ ] T037 [US3] Log `BACKGROUND_JOB` and `LOCK_SKIP` events via `SystemLogService` in `src/jobs/schedule-order-processor.ts`
+- [x] T033 [US3] Implement `OrderService.processPendingBatch` with transactional `updateMany` in `src/lib/services/order-service.ts`
+- [x] T034 [US3] Implement batch runner with lock acquire/release in `src/jobs/schedule-order-processor.ts` (`node-cron` `*/5 * * * *`)
+- [x] T035 [US3] Register cron scheduler on server start in `src/instrumentation.ts`
+- [x] T036 [US3] Implement manual trigger route in `src/app/api/internal/process-orders/route.ts` for dev/test (returns executed/skipped)
+- [x] T037 [US3] Log `BACKGROUND_JOB` and `LOCK_SKIP` events via `SystemLogService` in `src/jobs/schedule-order-processor.ts`
 
 **Checkpoint**: Quickstart Scenarios 3A/3B pass; `SystemLog` shows job and skip entries
 
