@@ -140,17 +140,17 @@ Single Next.js project at repository root per `plan.md`.
 
 ### Tests for User Story 4
 
-- [ ] T038 [P] [US4] Add unit tests for AI tools delegating to `OrderService` in `tests/integration/chat-tools.test.ts`
-- [ ] T039 [P] [US4] Add tests verifying `onFinish` writes `SystemLog` AI metadata (mock streamText) in `tests/integration/chat-tools.test.ts`
+- [x] T038 [P] [US4] Add unit tests for AI tools delegating to `OrderService` in `tests/integration/chat-tools.test.ts`
+- [x] T039 [P] [US4] Add tests verifying `onFinish` writes `SystemLog` AI metadata (mock streamText) in `tests/integration/chat-tools.test.ts`
 
 ### Implementation for User Story 4
 
-- [ ] T040 [P] [US4] Implement knowledge base loader in `src/lib/knowledge/load-knowledge-base.ts` reading `assets/knowledge_base.json`
-- [ ] T041 [US4] Implement `getOrderStatus` and `requestOrderCancellation` tools in `src/lib/ai/tools.ts` calling `OrderService` directly
-- [ ] T042 [US4] Implement `streamText` agent with hardened system prompt and KB injection in `src/lib/ai/agent.ts`
-- [ ] T043 [US4] Implement `onFinish` telemetry persistence to `SystemLog` in `src/lib/ai/agent.ts`
-- [ ] T044 [US4] Implement streaming `POST` handler in `src/app/api/chat/route.ts`
-- [ ] T045 [US4] Implement minimal chat UI in `src/app/chat/page.tsx` (message input, optional orderId, stream display)
+- [x] T040 [P] [US4] Implement knowledge base loader in `src/lib/knowledge/load-knowledge-base.ts` reading `assets/knowledge_base.json`
+- [x] T041 [US4] Implement `getOrderStatus` and `requestOrderCancellation` tools in `src/lib/ai/tools.ts` calling `OrderService` directly
+- [x] T042 [US4] Implement `streamText` agent with hardened system prompt and KB injection in `src/lib/ai/agent.ts`
+- [x] T043 [US4] Implement `onFinish` telemetry persistence to `SystemLog` in `src/lib/ai/agent.ts`
+- [x] T044 [US4] Implement streaming `POST` handler in `src/app/api/chat/route.ts`
+- [x] T045 [US4] Implement minimal chat UI in `src/app/chat/page.tsx` (message input, optional orderId, stream display)
 
 **Checkpoint**: Quickstart Scenario 4 passes; `SystemLog` contains `AI_INTERACTION` rows
 
