@@ -29,15 +29,15 @@ Single Next.js project at repository root per `plan.md`.
 
 **Purpose**: Project initialization and container orchestration
 
-- [ ] T001 Create Next.js 15 App Router project scaffold with TypeScript in `package.json`, `tsconfig.json`, and `next.config.ts`
-- [ ] T002 [P] Add core dependencies to `package.json` (prisma, @prisma/client, zod, ioredis, ai, @ai-sdk/openai, node-cron)
-- [ ] T003 [P] Add dev dependencies to `package.json` (vitest, @vitejs/plugin-react, prisma CLI)
-- [ ] T004 [P] Create `vitest.config.ts` with node environment for service/API tests
-- [ ] T005 [P] Create `.env.example` with `DATABASE_URL`, `REDIS_URL`, `OPENAI_API_KEY`
-- [ ] T006 Create `Dockerfile` for Next.js production/dev image with Node 20
-- [ ] T007 Create `docker-compose.yml` with `postgres`, `redis`, and `web` services plus `depends_on` healthchecks
-- [ ] T008 [P] Create `assets/knowledge_base.json` from assessment policy examples in `specs/001-ai-order-engine/contracts/chat-api.md`
-- [ ] T009 [P] Create minimal `src/app/layout.tsx` root layout for API and chat pages
+- [x] T001 Create Next.js 15 App Router project scaffold with TypeScript in `package.json`, `tsconfig.json`, and `next.config.ts`
+- [x] T002 [P] Add core dependencies to `package.json` (prisma, @prisma/client, zod, ioredis, ai, @ai-sdk/openai, node-cron)
+- [x] T003 [P] Add dev dependencies to `package.json` (vitest, @vitejs/plugin-react, prisma CLI)
+- [x] T004 [P] Create `vitest.config.ts` with node environment for service/API tests
+- [x] T005 [P] Create `.env.example` with `DATABASE_URL`, `REDIS_URL`, `OPENAI_API_KEY`
+- [x] T006 Create `Dockerfile` for Next.js production/dev image with Node 20
+- [x] T007 Create `docker-compose.yml` with `postgres`, `redis`, and `web` services plus `depends_on` healthchecks
+- [x] T008 [P] Create `assets/knowledge_base.json` from assessment policy examples in `specs/001-ai-order-engine/contracts/chat-api.md`
+- [x] T009 [P] Create minimal `src/app/layout.tsx` root layout for API and chat pages
 
 **Checkpoint**: `docker compose config` validates; `npm install` succeeds
 

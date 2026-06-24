@@ -1,0 +1,10 @@
+[
+  {
+    "context": "Order Cancellations",
+    "rule": "Order cancellation is a consumer right applicable only as long as the internal status of the order is listed as PENDING in the database. If the order has progressed to PROCESSING, SHIPPED or DELIVERED, the automated support is strictly forbidden to carry out the operation."
+  },
+  {
+    "context": "Update Window",
+    "rule": "New orders enter the PENDING state and wait for payment validation. A background process transitions orders to PROCESSING rigidly every 5 minutes."
+  }
+]
