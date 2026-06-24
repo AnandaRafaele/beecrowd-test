@@ -57,6 +57,31 @@ git log --oneline --graph    # review incremental history
 git log --grep="Refs: T"     # trace commits to tasks
 ```
 
+## Setup
+
+Requires **Node.js 20+** (`nvm use` reads `.nvmrc`).
+
+```bash
+cp .env.example .env
+docker compose up -d postgres redis
+npm install
+npx prisma generate
+npx prisma migrate dev --name init
+npm run dev
+```
+
+For production-like Docker run:
+
+```bash
+docker compose up --build
+```
+
+Apply migrations in containers:
+
+```bash
+npx prisma migrate deploy
+```
+
 ## Documentation (planned)
 
 - **SDD** — architecture, concurrency, Docker topology (T047)

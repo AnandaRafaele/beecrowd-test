@@ -49,16 +49,16 @@ Single Next.js project at repository root per `plan.md`.
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T010 Define Prisma schema (`OrderStatus`, `SystemLogType`, `Order`, `OrderItem`, `SystemLog`) in `prisma/schema.prisma` per `data-model.md`
-- [ ] T011 Create initial migration via `prisma migrate dev` and document command in `README.md` setup section
-- [ ] T012 [P] Implement Prisma singleton client in `src/lib/prisma.ts`
-- [ ] T013 [P] Implement Redis client wrapper in `src/lib/redis.ts`
-- [ ] T014 Implement distributed lock helpers (`acquireLock`, `releaseLock`) in `src/lib/lock.ts` using `SET lock:order_processor NX PX 120000`
-- [ ] T015 [P] Implement Zod schemas for create-order and status filter in `src/lib/validation/order-schemas.ts`
-- [ ] T016 Implement `SystemLogService` (`log`, `logAiInteraction`, `logBackgroundJob`) in `src/lib/services/system-log-service.ts`
-- [ ] T017 Create `OrderService` skeleton with shared types and `OrderNotFoundError` / `OrderNotCancellableError` in `src/lib/services/order-service.ts`
-- [ ] T018 [P] Add unit tests for Zod order schemas in `tests/unit/order-schemas.test.ts`
-- [ ] T019 Configure `instrumentation.ts` hook registration in `next.config.ts` (`experimental.instrumentationHook: true`)
+- [x] T010 Define Prisma schema (`OrderStatus`, `SystemLogType`, `Order`, `OrderItem`, `SystemLog`) in `prisma/schema.prisma` per `data-model.md`
+- [x] T011 Create initial migration via `prisma migrate dev` and document command in `README.md` setup section
+- [x] T012 [P] Implement Prisma singleton client in `src/lib/prisma.ts`
+- [x] T013 [P] Implement Redis client wrapper in `src/lib/redis.ts`
+- [x] T014 Implement distributed lock helpers (`acquireLock`, `releaseLock`) in `src/lib/lock.ts` using `SET lock:order_processor NX PX 120000`
+- [x] T015 [P] Implement Zod schemas for create-order and status filter in `src/lib/validation/order-schemas.ts`
+- [x] T016 Implement `SystemLogService` (`log`, `logAiInteraction`, `logBackgroundJob`) in `src/lib/services/system-log-service.ts`
+- [x] T017 Create `OrderService` skeleton with shared types and `OrderNotFoundError` / `OrderNotCancellableError` in `src/lib/services/order-service.ts`
+- [x] T018 [P] Add unit tests for Zod order schemas in `tests/unit/order-schemas.test.ts`
+- [x] T019 Configure `instrumentation.ts` hook registration (enabled by default in Next.js 15; no `next.config.ts` flag required)
 
 **Checkpoint**: `npx prisma migrate deploy` works against Compose Postgres; Redis connects locally
 
