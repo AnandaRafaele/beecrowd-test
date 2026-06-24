@@ -97,13 +97,13 @@ Single Next.js project at repository root per `plan.md`.
 
 ### Tests for User Story 2
 
-- [ ] T027 [P] [US2] Add unit tests for `OrderService.cancel` success and rejection paths in `tests/unit/order-service.test.ts`
-- [ ] T028 [P] [US2] Add integration tests for cancel API in `tests/integration/cancellation.test.ts` (409 on non-PENDING, concurrent cancel safety)
+- [x] T027 [P] [US2] Add unit tests for `OrderService.cancel` success and rejection paths in `tests/unit/order-service.test.ts`
+- [x] T028 [P] [US2] Add integration tests for cancel API in `tests/integration/cancellation.test.ts` (409 on non-PENDING, concurrent cancel safety)
 
 ### Implementation for User Story 2
 
-- [ ] T029 [US2] Implement `OrderService.cancel` using `prisma.$transaction` and `PENDING` guard in `src/lib/services/order-service.ts`
-- [ ] T030 [US2] Implement `POST` cancel handler in `src/app/api/orders/[id]/cancel/route.ts` (200 success, 409 not cancellable, 404 not found)
+- [x] T029 [US2] Implement `OrderService.cancel` using `prisma.$transaction` and `PENDING` guard in `src/lib/services/order-service.ts`
+- [x] T030 [US2] Implement `POST` cancel handler in `src/app/api/orders/[id]/cancel/route.ts` (200 success, 409 not cancellable, 404 not found)
 
 **Checkpoint**: Quickstart Scenario 2 passes
 

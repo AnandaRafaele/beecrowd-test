@@ -75,8 +75,31 @@ export class OrderService {
     return order;
   }
 
-  async cancel(_orderId: string): Promise<OrderWithItems> {
-    throw new Error("OrderService.cancel is not implemented yet");
+  async cancel(orderId: string): Promise<OrderWithItems> {
+    return this.db.$transaction(async (tx) => {
+      const updated = await tx.order.updateMany({
+        where: { id: orderId, status: "PENDING" },
+        data: { status: "CANCELLED" },
+      });
+
+      if (updated.count === 1) {
+        return tx.order.findUniqueOrThrow({
+          where: { id: orderId },
+          include: { items: true },
+        });
+      }
+
+      const order = await tx.order.findUnique({
+        where: { id: orderId },
+        include: { items: true },
+      });
+
+      if (!order) {
+        throw new OrderNotFoundError(orderId);
+      }
+
+      throw new OrderNotCancellableError(orderId, order.status);
+    });
   }
 
   async processPendingBatch(): Promise<number> {

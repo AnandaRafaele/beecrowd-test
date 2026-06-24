@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
+  OrderNotCancellableError,
   OrderNotFoundError,
   OrderService,
 } from "@/lib/services/order-service";
@@ -8,13 +9,19 @@ import {
 const mockOrderCreate = vi.fn();
 const mockOrderFindMany = vi.fn();
 const mockOrderFindUnique = vi.fn();
+const mockOrderUpdateMany = vi.fn();
+const mockOrderFindUniqueOrThrow = vi.fn();
+const mockTransaction = vi.fn();
 
 const mockDb = {
   order: {
     create: mockOrderCreate,
     findMany: mockOrderFindMany,
     findUnique: mockOrderFindUnique,
+    updateMany: mockOrderUpdateMany,
+    findUniqueOrThrow: mockOrderFindUniqueOrThrow,
   },
+  $transaction: mockTransaction,
 } as unknown as ConstructorParameters<typeof OrderService>[0];
 
 const sampleInput = {
@@ -135,5 +142,69 @@ describe("OrderService.getById", () => {
     await expect(service.getById("missing-id")).rejects.toBeInstanceOf(
       OrderNotFoundError,
     );
+  });
+});
+
+describe("OrderService.cancel", () => {
+  const cancelledOrder = {
+    ...sampleOrder,
+    status: "CANCELLED" as const,
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockTransaction.mockImplementation(async (callback) => callback(mockDb));
+  });
+
+  it("cancels a PENDING order inside a transaction", async () => {
+    mockOrderUpdateMany.mockResolvedValue({ count: 1 });
+    mockOrderFindUniqueOrThrow.mockResolvedValue(cancelledOrder);
+
+    const service = new OrderService(mockDb);
+    const result = await service.cancel(sampleOrder.id);
+
+    expect(mockTransaction).toHaveBeenCalledOnce();
+    expect(mockOrderUpdateMany).toHaveBeenCalledWith({
+      where: { id: sampleOrder.id, status: "PENDING" },
+      data: { status: "CANCELLED" },
+    });
+    expect(result).toEqual(cancelledOrder);
+  });
+
+  it("throws OrderNotFoundError when order does not exist", async () => {
+    mockOrderUpdateMany.mockResolvedValue({ count: 0 });
+    mockOrderFindUnique.mockResolvedValue(null);
+
+    const service = new OrderService(mockDb);
+
+    await expect(service.cancel("missing-id")).rejects.toBeInstanceOf(
+      OrderNotFoundError,
+    );
+  });
+
+  it("throws OrderNotCancellableError when status is not PENDING", async () => {
+    mockOrderUpdateMany.mockResolvedValue({ count: 0 });
+    mockOrderFindUnique.mockResolvedValue({
+      ...sampleOrder,
+      status: "PROCESSING",
+    });
+
+    const service = new OrderService(mockDb);
+
+    await expect(service.cancel(sampleOrder.id)).rejects.toBeInstanceOf(
+      OrderNotCancellableError,
+    );
+  });
+
+  it("rejects concurrent cancel when order is already CANCELLED", async () => {
+    mockOrderUpdateMany.mockResolvedValue({ count: 0 });
+    mockOrderFindUnique.mockResolvedValue(cancelledOrder);
+
+    const service = new OrderService(mockDb);
+
+    await expect(service.cancel(sampleOrder.id)).rejects.toMatchObject({
+      name: "OrderNotCancellableError",
+      status: "CANCELLED",
+    });
   });
 });
