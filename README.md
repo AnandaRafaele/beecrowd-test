@@ -29,9 +29,19 @@ Refs: T025-T026
 | `fix` | Bug fixes |
 | `refactor` | Code changes without behavior change |
 
+### Branch strategy
+
+| Branch | Purpose |
+|--------|---------|
+| `master` | Planning artifacts (specs, constitution, tasks) |
+| `001-ai-order-engine` | Implementation (T001–T052) |
+
+One branch per feature; name matches `specs/<NNN-short-name>/`.
+
 ### Commit rhythm
 
-Commits align with checkpoints in `specs/001-ai-order-engine/tasks.md`:
+On the feature branch, commits align with checkpoints in
+`specs/001-ai-order-engine/tasks.md`:
 
 1. **Setup** — project scaffold, Docker, assets
 2. **Foundational** — Prisma schema, Redis lock, shared services

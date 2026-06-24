@@ -1,19 +1,45 @@
 ---
-description: Incremental git commits aligned with tasks.md checkpoints (assessment deliverable)
+description: Branch-per-feature workflow with incremental commits per tasks.md phase
 alwaysApply: true
 ---
 
-# Git Commit Conventions
+# Git Branch & Commit Conventions
 
 This project MUST show clean, incremental development history for the beecrowd/Winter
-assessment. Never squash the entire implementation into one commit.
+assessment. Use **one git branch per feature** and **incremental commits per phase**
+inside that branch.
 
-## When to commit
+## Branch strategy (one branch per feature)
+
+| Branch | Purpose |
+|--------|---------|
+| `master` | Stable baseline: spec-kit setup, specs, plans, tasks, README. Merge target after review. |
+| `001-ai-order-engine` | Implementation of feature `specs/001-ai-order-engine/` (T001–T052). |
+
+**Rules**:
+
+- Create branch name from feature directory: `specs/<NNN-short-name>` → branch `<NNN-short-name>`.
+- All **implementation code** (src/, prisma/, docker, tests) commits go on the feature branch.
+- Do **not** mix two features on the same branch.
+- When starting a new feature: `git checkout master && git pull && git checkout -b <NNN-short-name>`.
+- After review: open PR `001-ai-order-engine` → `master` (or merge locally).
+
+**Current feature branch**: `001-ai-order-engine` (active for implementation).
+
+Spec-kit resolves the feature via `.specify/feature.json`, not branch name — but branch
+and directory SHOULD match for easier code review.
+
+## Commits per phase (inside the feature branch)
+
+Never squash the entire implementation into one commit. Commit after each **checkpoint**
+in `specs/001-ai-order-engine/tasks.md`.
 
 - Commit only when the user explicitly asks (e.g. "commit T010-T011").
-- After completing a **checkpoint** in `specs/001-ai-order-engine/tasks.md`, suggest a commit.
+- After completing a checkpoint, suggest a commit on the **current feature branch**.
 - One logical unit per commit: setup slice, schema, tests, service, routes, or docs.
 - Do NOT commit unrelated phases together (e.g. orders API + AI chat in one commit).
+- Verify branch before commit: `git branch --show-current` must be `001-ai-order-engine`
+  during implementation (not `master`).
 
 ## Message format (Conventional Commits)
 
@@ -54,11 +80,22 @@ Refs: T027-T028
 
 Prefer **test commit before feat** when TDD applies (e.g. T020 before T022).
 
+## Workflow summary
+
+```text
+master                    → docs, specs, constitution (planning artifacts)
+  └── 001-ai-order-engine → T001..T052 implementation
+        ├── commit (Phase 1 Setup)
+        ├── commit (Phase 2 Foundational)
+        ├── commit (US1) …
+        └── PR → master
+```
+
 ## Files to NEVER commit
 
 `.env`, secrets, `node_modules/`, `.next/`, local IDE config with credentials.
 
 ## After committing
 
-Run `git status` to confirm a clean working tree for the completed slice before
-starting the next phase.
+1. Run `git status` — working tree clean for the completed slice.
+2. Confirm you are on the feature branch before starting the next phase.
