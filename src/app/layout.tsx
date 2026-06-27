@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { fontVariables } from "@/lib/fonts";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Intelligent Order Processing System",
@@ -12,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={fontVariables}>{children}</body>
     </html>
   );
 }
