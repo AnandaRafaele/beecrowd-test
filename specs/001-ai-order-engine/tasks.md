@@ -29,15 +29,15 @@ Single Next.js project at repository root per `plan.md`.
 
 **Purpose**: Project initialization and container orchestration
 
-- [ ] T001 Create Next.js 15 App Router project scaffold with TypeScript in `package.json`, `tsconfig.json`, and `next.config.ts`
-- [ ] T002 [P] Add core dependencies to `package.json` (prisma, @prisma/client, zod, ioredis, ai, @ai-sdk/openai, node-cron)
-- [ ] T003 [P] Add dev dependencies to `package.json` (vitest, @vitejs/plugin-react, prisma CLI)
-- [ ] T004 [P] Create `vitest.config.ts` with node environment for service/API tests
-- [ ] T005 [P] Create `.env.example` with `DATABASE_URL`, `REDIS_URL`, `OPENAI_API_KEY`
-- [ ] T006 Create `Dockerfile` for Next.js production/dev image with Node 20
-- [ ] T007 Create `docker-compose.yml` with `postgres`, `redis`, and `web` services plus `depends_on` healthchecks
-- [ ] T008 [P] Create `assets/knowledge_base.json` from assessment policy examples in `specs/001-ai-order-engine/contracts/chat-api.md`
-- [ ] T009 [P] Create minimal `src/app/layout.tsx` root layout for API and chat pages
+- [x] T001 Create Next.js 15 App Router project scaffold with TypeScript in `package.json`, `tsconfig.json`, and `next.config.ts`
+- [x] T002 [P] Add core dependencies to `package.json` (prisma, @prisma/client, zod, ioredis, ai, @ai-sdk/openai, node-cron)
+- [x] T003 [P] Add dev dependencies to `package.json` (vitest, @vitejs/plugin-react, prisma CLI)
+- [x] T004 [P] Create `vitest.config.ts` with node environment for service/API tests
+- [x] T005 [P] Create `.env.example` with `DATABASE_URL`, `REDIS_URL`, `OPENAI_API_KEY`
+- [x] T006 Create `Dockerfile` for Next.js production/dev image with Node 20
+- [x] T007 Create `docker-compose.yml` with `postgres`, `redis`, and `web` services plus `depends_on` healthchecks
+- [x] T008 [P] Create `assets/knowledge_base.json` from assessment policy examples in `specs/001-ai-order-engine/contracts/chat-api.md`
+- [x] T009 [P] Create minimal `src/app/layout.tsx` root layout for API and chat pages
 
 **Checkpoint**: `docker compose config` validates; `npm install` succeeds
 
@@ -49,16 +49,16 @@ Single Next.js project at repository root per `plan.md`.
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T010 Define Prisma schema (`OrderStatus`, `SystemLogType`, `Order`, `OrderItem`, `SystemLog`) in `prisma/schema.prisma` per `data-model.md`
-- [ ] T011 Create initial migration via `prisma migrate dev` and document command in `README.md` setup section
-- [ ] T012 [P] Implement Prisma singleton client in `src/lib/prisma.ts`
-- [ ] T013 [P] Implement Redis client wrapper in `src/lib/redis.ts`
-- [ ] T014 Implement distributed lock helpers (`acquireLock`, `releaseLock`) in `src/lib/lock.ts` using `SET lock:order_processor NX PX 120000`
-- [ ] T015 [P] Implement Zod schemas for create-order and status filter in `src/lib/validation/order-schemas.ts`
-- [ ] T016 Implement `SystemLogService` (`log`, `logAiInteraction`, `logBackgroundJob`) in `src/lib/services/system-log-service.ts`
-- [ ] T017 Create `OrderService` skeleton with shared types and `OrderNotFoundError` / `OrderNotCancellableError` in `src/lib/services/order-service.ts`
-- [ ] T018 [P] Add unit tests for Zod order schemas in `tests/unit/order-schemas.test.ts`
-- [ ] T019 Configure `instrumentation.ts` hook registration in `next.config.ts` (`experimental.instrumentationHook: true`)
+- [x] T010 Define Prisma schema (`OrderStatus`, `SystemLogType`, `Order`, `OrderItem`, `SystemLog`) in `prisma/schema.prisma` per `data-model.md`
+- [x] T011 Create initial migration via `prisma migrate dev` and document command in `README.md` setup section
+- [x] T012 [P] Implement Prisma singleton client in `src/lib/prisma.ts`
+- [x] T013 [P] Implement Redis client wrapper in `src/lib/redis.ts`
+- [x] T014 Implement distributed lock helpers (`acquireLock`, `releaseLock`) in `src/lib/lock.ts` using `SET lock:order_processor NX PX 120000`
+- [x] T015 [P] Implement Zod schemas for create-order and status filter in `src/lib/validation/order-schemas.ts`
+- [x] T016 Implement `SystemLogService` (`log`, `logAiInteraction`, `logBackgroundJob`) in `src/lib/services/system-log-service.ts`
+- [x] T017 Create `OrderService` skeleton with shared types and `OrderNotFoundError` / `OrderNotCancellableError` in `src/lib/services/order-service.ts`
+- [x] T018 [P] Add unit tests for Zod order schemas in `tests/unit/order-schemas.test.ts`
+- [x] T019 Configure `instrumentation.ts` hook registration (enabled by default in Next.js 15; no `next.config.ts` flag required)
 
 **Checkpoint**: `npx prisma migrate deploy` works against Compose Postgres; Redis connects locally
 
@@ -74,16 +74,16 @@ Single Next.js project at repository root per `plan.md`.
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T020 [P] [US1] Add unit tests for `OrderService.create`, `list`, `getById` in `tests/unit/order-service.test.ts`
-- [ ] T021 [P] [US1] Add integration tests for order API in `tests/integration/order-api.test.ts` (create, list, filter, detail, 404)
+- [x] T020 [P] [US1] Add unit tests for `OrderService.create`, `list`, `getById` in `tests/unit/order-service.test.ts`
+- [x] T021 [P] [US1] Add integration tests for order API in `tests/integration/order-api.test.ts` (create, list, filter, detail, 404)
 
 ### Implementation for User Story 1
 
-- [ ] T022 [US1] Implement `OrderService.create` with server-side `totalPrice` computation in `src/lib/services/order-service.ts`
-- [ ] T023 [US1] Implement `OrderService.list` with optional status filter in `src/lib/services/order-service.ts`
-- [ ] T024 [US1] Implement `OrderService.getById` with items included in `src/lib/services/order-service.ts`
-- [ ] T025 [P] [US1] Implement `POST` and `GET` handlers in `src/app/api/orders/route.ts` (Zod validation, 400 on invalid payload)
-- [ ] T026 [P] [US1] Implement `GET` handler in `src/app/api/orders/[id]/route.ts` (200 detail, 404 not found)
+- [x] T022 [US1] Implement `OrderService.create` with server-side `totalPrice` computation in `src/lib/services/order-service.ts`
+- [x] T023 [US1] Implement `OrderService.list` with optional status filter in `src/lib/services/order-service.ts`
+- [x] T024 [US1] Implement `OrderService.getById` with items included in `src/lib/services/order-service.ts`
+- [x] T025 [P] [US1] Implement `POST` and `GET` handlers in `src/app/api/orders/route.ts` (Zod validation, 400 on invalid payload)
+- [x] T026 [P] [US1] Implement `GET` handler in `src/app/api/orders/[id]/route.ts` (200 detail, 404 not found)
 
 **Checkpoint**: Quickstart Scenario 1 passes (`specs/001-ai-order-engine/quickstart.md`)
 
@@ -97,13 +97,13 @@ Single Next.js project at repository root per `plan.md`.
 
 ### Tests for User Story 2
 
-- [ ] T027 [P] [US2] Add unit tests for `OrderService.cancel` success and rejection paths in `tests/unit/order-service.test.ts`
-- [ ] T028 [P] [US2] Add integration tests for cancel API in `tests/integration/cancellation.test.ts` (409 on non-PENDING, concurrent cancel safety)
+- [x] T027 [P] [US2] Add unit tests for `OrderService.cancel` success and rejection paths in `tests/unit/order-service.test.ts`
+- [x] T028 [P] [US2] Add integration tests for cancel API in `tests/integration/cancellation.test.ts` (409 on non-PENDING, concurrent cancel safety)
 
 ### Implementation for User Story 2
 
-- [ ] T029 [US2] Implement `OrderService.cancel` using `prisma.$transaction` and `PENDING` guard in `src/lib/services/order-service.ts`
-- [ ] T030 [US2] Implement `POST` cancel handler in `src/app/api/orders/[id]/cancel/route.ts` (200 success, 409 not cancellable, 404 not found)
+- [x] T029 [US2] Implement `OrderService.cancel` using `prisma.$transaction` and `PENDING` guard in `src/lib/services/order-service.ts`
+- [x] T030 [US2] Implement `POST` cancel handler in `src/app/api/orders/[id]/cancel/route.ts` (200 success, 409 not cancellable, 404 not found)
 
 **Checkpoint**: Quickstart Scenario 2 passes
 
@@ -117,16 +117,16 @@ Single Next.js project at repository root per `plan.md`.
 
 ### Tests for User Story 3
 
-- [ ] T031 [P] [US3] Add unit tests for `OrderService.processPendingBatch` in `tests/unit/order-service.test.ts`
-- [ ] T032 [P] [US3] Add integration tests for background job and lock skip in `tests/integration/background-job.test.ts` (mock or test Redis)
+- [x] T031 [P] [US3] Add unit tests for `OrderService.processPendingBatch` in `tests/unit/order-service.test.ts`
+- [x] T032 [P] [US3] Add integration tests for background job and lock skip in `tests/integration/background-job.test.ts` (mock or test Redis)
 
 ### Implementation for User Story 3
 
-- [ ] T033 [US3] Implement `OrderService.processPendingBatch` with transactional `updateMany` in `src/lib/services/order-service.ts`
-- [ ] T034 [US3] Implement batch runner with lock acquire/release in `src/jobs/schedule-order-processor.ts` (`node-cron` `*/5 * * * *`)
-- [ ] T035 [US3] Register cron scheduler on server start in `src/instrumentation.ts`
-- [ ] T036 [US3] Implement manual trigger route in `src/app/api/internal/process-orders/route.ts` for dev/test (returns executed/skipped)
-- [ ] T037 [US3] Log `BACKGROUND_JOB` and `LOCK_SKIP` events via `SystemLogService` in `src/jobs/schedule-order-processor.ts`
+- [x] T033 [US3] Implement `OrderService.processPendingBatch` with transactional `updateMany` in `src/lib/services/order-service.ts`
+- [x] T034 [US3] Implement batch runner with lock acquire/release in `src/jobs/schedule-order-processor.ts` (`node-cron` `*/5 * * * *`)
+- [x] T035 [US3] Register cron scheduler on server start in `src/instrumentation.ts`
+- [x] T036 [US3] Implement manual trigger route in `src/app/api/internal/process-orders/route.ts` for dev/test (returns executed/skipped)
+- [x] T037 [US3] Log `BACKGROUND_JOB` and `LOCK_SKIP` events via `SystemLogService` in `src/jobs/schedule-order-processor.ts`
 
 **Checkpoint**: Quickstart Scenarios 3A/3B pass; `SystemLog` shows job and skip entries
 
@@ -140,17 +140,17 @@ Single Next.js project at repository root per `plan.md`.
 
 ### Tests for User Story 4
 
-- [ ] T038 [P] [US4] Add unit tests for AI tools delegating to `OrderService` in `tests/integration/chat-tools.test.ts`
-- [ ] T039 [P] [US4] Add tests verifying `onFinish` writes `SystemLog` AI metadata (mock streamText) in `tests/integration/chat-tools.test.ts`
+- [x] T038 [P] [US4] Add unit tests for AI tools delegating to `OrderService` in `tests/integration/chat-tools.test.ts`
+- [x] T039 [P] [US4] Add tests verifying `onFinish` writes `SystemLog` AI metadata (mock streamText) in `tests/integration/chat-tools.test.ts`
 
 ### Implementation for User Story 4
 
-- [ ] T040 [P] [US4] Implement knowledge base loader in `src/lib/knowledge/load-knowledge-base.ts` reading `assets/knowledge_base.json`
-- [ ] T041 [US4] Implement `getOrderStatus` and `requestOrderCancellation` tools in `src/lib/ai/tools.ts` calling `OrderService` directly
-- [ ] T042 [US4] Implement `streamText` agent with hardened system prompt and KB injection in `src/lib/ai/agent.ts`
-- [ ] T043 [US4] Implement `onFinish` telemetry persistence to `SystemLog` in `src/lib/ai/agent.ts`
-- [ ] T044 [US4] Implement streaming `POST` handler in `src/app/api/chat/route.ts`
-- [ ] T045 [US4] Implement minimal chat UI in `src/app/chat/page.tsx` (message input, optional orderId, stream display)
+- [x] T040 [P] [US4] Implement knowledge base loader in `src/lib/knowledge/load-knowledge-base.ts` reading `assets/knowledge_base.json`
+- [x] T041 [US4] Implement `getOrderStatus` and `requestOrderCancellation` tools in `src/lib/ai/tools.ts` calling `OrderService` directly
+- [x] T042 [US4] Implement `streamText` agent with hardened system prompt and KB injection in `src/lib/ai/agent.ts`
+- [x] T043 [US4] Implement `onFinish` telemetry persistence to `SystemLog` in `src/lib/ai/agent.ts`
+- [x] T044 [US4] Implement streaming `POST` handler in `src/app/api/chat/route.ts`
+- [x] T045 [US4] Implement minimal chat UI in `src/app/chat/page.tsx` (message input, optional orderId, stream display)
 
 **Checkpoint**: Quickstart Scenario 4 passes; `SystemLog` contains `AI_INTERACTION` rows
 
@@ -160,13 +160,13 @@ Single Next.js project at repository root per `plan.md`.
 
 **Purpose**: Documentation, assessment deliverables, and final validation
 
-- [ ] T046 [P] Mirror OpenAPI contract to `assets/swagger.json` from `specs/001-ai-order-engine/contracts/openapi.yaml`
-- [ ] T047 Write SDD architecture section in `README.md` (data model, concurrency, Docker topology)
-- [ ] T048 Write GenAI report section in `README.md` (tools used, prompts, failures, corrections)
-- [ ] T049 Add `README.md` quickstart commands referencing `specs/001-ai-order-engine/quickstart.md`
-- [ ] T050 Run full Vitest suite (`npm test`) and fix failures across `tests/`
-- [ ] T051 Validate `docker compose up --build` end-to-end per `specs/001-ai-order-engine/quickstart.md`
-- [ ] T052 [P] Update `.gitignore` for `.env`, `node_modules`, `.next`, and generated Prisma artifacts
+- [x] T046 [P] Mirror OpenAPI contract to `assets/swagger.json` from `specs/001-ai-order-engine/contracts/openapi.yaml`
+- [x] T047 Write SDD architecture section in `README.md` (data model, concurrency, Docker topology)
+- [x] T048 Write GenAI report section in `README.md` (tools used, prompts, failures, corrections)
+- [x] T049 Add `README.md` quickstart commands referencing `specs/001-ai-order-engine/quickstart.md`
+- [x] T050 Run full Vitest suite (`npm test`) and fix failures across `tests/`
+- [x] T051 Validate `docker compose up --build` end-to-end per `specs/001-ai-order-engine/quickstart.md`
+- [x] T052 [P] Update `.gitignore` for `.env`, `node_modules`, `.next`, and generated Prisma artifacts
 
 ---
 
